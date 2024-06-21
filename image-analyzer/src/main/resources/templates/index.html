@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Image Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Analyseur d'Images</h1>
+
+    <!-- Formulaire pour télécharger une image -->
+    <form action="/process-image" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit" name="action" value="upload">Télécharger et Analyser Image</button>
+    </form>
+
+    <!-- Affichage des messages -->
+    <div th:if="${message}" class="message">
+        <p th:text="${message}" class="message-text"></p>
+    </div>
+
+    <!-- Affichage des images -->
+    <h2>Images</h2>
+    <div th:each="image : ${images}" class="image-container">
+        <p th:text="${image.name}" class="image-name"></p>
+        <img th:src="@{'/api/images/' + ${image.id}}" alt="Image" class="image-preview" width="400">
+        <div th:if="${image.numberOfFaces > 0}">
+            <p>Nombre de visages détectés: <span th:text="${image.numberOfFaces}"></span></p>
+        </div>
+    </div>
+</body>
+</html>
